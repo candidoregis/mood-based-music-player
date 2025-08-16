@@ -103,13 +103,116 @@ h1 {
   transform: translateY(0);
 }
 
+/* Results container */
+.results-container {
+  width: 90%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  margin-top: 30px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mood analysis */
+.mood-analysis {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.mood-analysis h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #61dafb;
+}
+
+.mood-description {
+  font-size: 1.1rem;
+  background: rgba(97, 218, 251, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #61dafb;
+}
+
+/* Recommendations */
+.recommendations h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #61dafb;
+}
+
+.genre-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.genre-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.genre-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.genre-name {
+  width: 100px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.strength-bar-container {
+  flex-grow: 1;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  margin: 0 15px;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #61dafb, #4fc3f7);
+  border-radius: 5px;
+  transition: width 0.5s ease-out;
+}
+
+.strength-value {
+  width: 45px;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
 @media (max-width: 600px) {
-  .slider-container {
+  .slider-container,
+  .results-container {
     width: 95%;
     padding: 20px;
   }
   
   h1 {
     font-size: 2rem;
+  }
+  
+  .genre-name {
+    width: 80px;
+  }
+  
+  .strength-value {
+    width: 40px;
   }
 }
