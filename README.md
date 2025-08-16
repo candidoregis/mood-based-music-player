@@ -1,14 +1,14 @@
 # Mood-Based Music Player
 
-A React application that recommends music genres based on mood using fuzzy logic and retrieves song recommendations from Spotify.
+A vanilla JavaScript application that recommends music genres based on mood using fuzzy logic and retrieves song recommendations from Spotify.
 
 ## Overview
 
 This application uses:
 - Fuzzy logic to determine music genres based on mood, energy, and vibe inputs
 - Spotify API to retrieve song recommendations for the selected genres
-- React for the frontend user interface
-- Flask API to serve as a bridge between the React frontend and the Spotify API
+- Vanilla JavaScript for the frontend user interface
+- Flask API to serve both static files and handle Spotify API requests
 
 **Note:** This application requires valid Spotify API credentials to function properly. There is no mock data fallback.
 
@@ -16,9 +16,9 @@ This application uses:
 
 ### Prerequisites
 
-- Node.js and npm
 - Python 3.x
 - Spotify Developer Account
+- Modern web browser
 
 ### Spotify API Credentials
 
@@ -34,12 +34,7 @@ SPOTIFY_CLIENT_SECRET=your_client_secret_here
 
 ### Installation
 
-1. Install JavaScript dependencies:
-```
-npm install
-```
-
-2. Install Python dependencies:
+1. Install Python dependencies:
 ```
 pip install flask flask-cors requests python-dotenv fuzzysearch
 ```
@@ -52,12 +47,7 @@ cd src/services
 python api.py
 ```
 
-2. In a separate terminal, start the React development server:
-```
-npm start
-```
-
-3. Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
+2. Open [http://localhost:5002](http://localhost:5002) to view the application in your browser.
 
 ## How It Works
 
@@ -68,73 +58,43 @@ npm start
 
 ---
 
-# Getting Started with Create React App
+## Project Structure
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+├── index.html          # Main HTML file
+├── styles.css         # CSS styles
+├── js/                # JavaScript files
+│   ├── app.js         # Main application logic
+│   ├── fuzzyLogic.js  # Fuzzy logic implementation
+│   └── spotifyService.js # Spotify API integration
+├── public/            # Public assets
+│   └── favicon.ico    # Favicon
+└── src/               # Backend source code
+    └── services/      # Flask API services
+        ├── api.py     # Flask API server
+        ├── genres.json # Genre data
+        └── spotify_get_song.py # Spotify integration
+```
 
-## Available Scripts
+## Technical Details
 
-In the project directory, you can run:
+### Fuzzy Logic System
 
-### `npm start`
+The application uses a fuzzy logic system to determine appropriate music genres based on three inputs:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Mood** - From sad to happy (0-100)
+2. **Energy** - From low to high (0-100)
+3. **Vibe** - From chill to intense (0-100)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The fuzzy logic system uses triangular and trapezoidal membership functions to calculate the degree of membership in various fuzzy sets, and then applies inference rules to determine the most appropriate music genres.
 
-### `npm test`
+### Flask API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The Flask API serves two purposes:
 
-### `npm run build`
+1. Serving the static HTML, CSS, and JavaScript files
+2. Providing an endpoint to get song recommendations from Spotify based on genre
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Browser Support
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The application should work in all modern browsers that support ES6 features.

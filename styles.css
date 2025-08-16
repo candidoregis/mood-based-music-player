@@ -1,9 +1,20 @@
-.App {
-  text-align: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* Main App Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-header {
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+.app {
+  text-align: center;
+}
+
+.app-header {
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   min-height: 100vh;
   display: flex;
@@ -22,6 +33,7 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Slider Styles */
 .slider-container {
   width: 90%;
   max-width: 500px;
@@ -72,6 +84,22 @@ h1 {
   background: #4fc3f7;
 }
 
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #61dafb;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  background: #4fc3f7;
+}
+
 .slider-labels {
   display: flex;
   justify-content: space-between;
@@ -79,6 +107,7 @@ h1 {
   opacity: 0.8;
 }
 
+/* Button Styles */
 .calculate-btn,
 .find-music-btn {
   background: #61dafb;
@@ -114,7 +143,7 @@ h1 {
   transform: none;
 }
 
-/* Results container */
+/* Results Container */
 .results-container {
   width: 90%;
   max-width: 500px;
@@ -132,7 +161,7 @@ h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mood analysis */
+/* Mood Analysis */
 .mood-analysis {
   margin-bottom: 25px;
   text-align: center;
@@ -153,7 +182,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Mood details */
+/* Mood Details */
 .mood-details {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
@@ -253,7 +282,7 @@ h1 {
   text-align: right;
 }
 
-/* Song recommendation */
+/* Song Recommendation */
 .song-recommendation {
   width: 90%;
   max-width: 500px;
@@ -294,6 +323,7 @@ h1 {
   margin-top: 10px;
 }
 
+/* Responsive Styles */
 @media (max-width: 600px) {
   .slider-container,
   .results-container,
@@ -320,4 +350,20 @@ h1 {
     font-size: 1rem;
     min-width: 150px;
   }
+}
+
+/* Loading Spinner */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #61dafb;
+  animation: spin 1s ease-in-out infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

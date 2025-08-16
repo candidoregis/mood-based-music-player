@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood-Based Music Player</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="public/favicon.ico">
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <h1>Mood-Based Music Player</h1>
+            
+            <div class="slider-container">
+                <div class="slider-group">
+                    <label for="mood">Mood: <span id="mood-value">50</span>%</label>
+                    <input
+                        type="range"
+                        id="mood"
+                        name="mood"
+                        min="0"
+                        max="100"
+                        value="50"
+                        class="slider"
+                    />
+                    <span class="slider-labels">
+                        <span>Sad</span>
+                        <span>Happy</span>
+                    </span>
+                </div>
+
+                <div class="slider-group">
+                    <label for="energy">Energy: <span id="energy-value">50</span>%</label>
+                    <input
+                        type="range"
+                        id="energy"
+                        name="energy"
+                        min="0"
+                        max="100"
+                        value="50"
+                        class="slider"
+                    />
+                    <span class="slider-labels">
+                        <span>Low</span>
+                        <span>High</span>
+                    </span>
+                </div>
+
+                <div class="slider-group">
+                    <label for="vibe">Vibe: <span id="vibe-value">50</span>%</label>
+                    <input
+                        type="range"
+                        id="vibe"
+                        name="vibe"
+                        min="0"
+                        max="100"
+                        value="50"
+                        class="slider"
+                    />
+                    <span class="slider-labels">
+                        <span>Chill</span>
+                        <span>Intense</span>
+                    </span>
+                </div>
+            </div>
+            
+            <button id="calculate-btn" class="calculate-btn">
+                Calculate Recommendations
+            </button>
+            
+            <button id="find-music-btn" class="find-music-btn" disabled>
+                Find Music
+            </button>
+
+            <div id="song-recommendation" class="song-recommendation" style="display: none;">
+                <h3>Recommended Song:</h3>
+                <p id="song-title" class="song-title"></p>
+                <p id="song-genre" class="song-genre"></p>
+                <p id="song-error" class="song-error"></p>
+                <div id="spotify-player" class="spotify-player"></div>
+            </div>
+            
+            <div id="results-container" class="results-container" style="display: none;">
+                <div class="mood-analysis">
+                    <h2>Your Mood Analysis</h2>
+                    <p id="mood-description" class="mood-description"></p>
+                    <div class="mood-details">
+                        <div class="mood-detail-item">
+                            <span class="detail-label">Mood:</span>
+                            <span id="detail-mood" class="detail-value"></span>
+                            <div class="detail-bar-container">
+                                <div id="mood-bar" class="detail-bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="mood-detail-item">
+                            <span class="detail-label">Energy:</span>
+                            <span id="detail-energy" class="detail-value"></span>
+                            <div class="detail-bar-container">
+                                <div id="energy-bar" class="detail-bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="mood-detail-item">
+                            <span class="detail-label">Vibe:</span>
+                            <span id="detail-vibe" class="detail-value"></span>
+                            <div class="detail-bar-container">
+                                <div id="vibe-bar" class="detail-bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recommendations">
+                    <h2>Recommended Genres</h2>
+                    <ul id="genre-list" class="genre-list">
+                        <!-- Genre items will be inserted here by JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/fuzzyLogic.js"></script>
+    <script src="js/spotifyService.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
