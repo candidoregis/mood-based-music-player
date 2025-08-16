@@ -1,20 +1,22 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getFuzzyRecommendations, getMoodState } from './fuzzyLogic';
+import { getSongRecommendation } from './services/spotifyService';
 
 function App() {
   const [mood, setMood] = useState(50);
   const [energy, setEnergy] = useState(50);
   const [vibe, setVibe] = useState(50);
-  const [recommendations, setRecommendations] = useState([]);
+  const [genres, setGenres] = useState([]);
   const [moodState, setMoodState] = useState({});
+  const [songRecommendation, setSongRecommendation] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
   // Update recommendations when sliders change
   useEffect(() => {
-    const newRecommendations = getFuzzyRecommendations(mood, energy, vibe);
     const newMoodState = getMoodState(mood, energy, vibe);
-    setRecommendations(newRecommendations);
     setMoodState(newMoodState);
   }, [mood, energy, vibe]);
 
@@ -30,8 +32,39 @@ function App() {
     setVibe(e.target.value);
   };
 
-  const handleFindMusic = () => {
+  const handleCalculateGenres = () => {
+    const newRecommendations = getFuzzyRecommendations(mood, energy, vibe);
+    setGenres(newRecommendations);
+    setRecommendations(newRecommendations);
     setShowResults(true);
+  };
+
+  const handleFindMusic = async () => {
+    if (genres.length === 0) {
+      // Calculate genres if not already done
+      handleCalculateGenres();
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      // Get the top genre from the fuzzy system
+      const topGenre = genres[0].genre;
+      console.log('Finding music for top genre:', topGenre);
+      
+      // Get a song recommendation based on the top genre
+      const recommendation = await getSongRecommendation(topGenre);
+      setSongRecommendation(recommendation);
+      console.log('Song recommendation:', recommendation);
+    } catch (error) {
+      console.error('Error finding music:', error);
+      setSongRecommendation({
+        error: 'Failed to get song recommendation',
+        song: 'Rick Astley - Never Gonna Give You Up'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -94,10 +127,34 @@ function App() {
           </div>
         </div>
         
-        <button className="find-music-btn" onClick={handleFindMusic}>
-          Find Music
+        <button 
+          onClick={handleCalculateGenres} 
+          className="calculate-btn"
+        >
+          Calculate Recommendations
+        </button>
+        
+        <button 
+          onClick={handleFindMusic} 
+          className="find-music-btn"
+          disabled={isLoading || genres.length === 0}
+        >
+          {isLoading ? 'Finding Music...' : 'Find Music'}
         </button>
 
+        {songRecommendation && (
+          <div className="song-recommendation">
+            <h3>Recommended Song:</h3>
+            <p className="song-title">{songRecommendation.song}</p>
+            {songRecommendation.genre && (
+              <p className="song-genre">Genre: {songRecommendation.genre}</p>
+            )}
+            {songRecommendation.error && (
+              <p className="song-error">{songRecommendation.error}</p>
+            )}
+          </div>
+        )}
+        
         {showResults && (
           <div className="results-container">
             <div className="mood-analysis">

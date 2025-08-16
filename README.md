@@ -1,3 +1,73 @@
+# Mood-Based Music Player
+
+A React application that recommends music genres based on mood using fuzzy logic and retrieves song recommendations from Spotify.
+
+## Overview
+
+This application uses:
+- Fuzzy logic to determine music genres based on mood, energy, and vibe inputs
+- Spotify API to retrieve song recommendations for the selected genres
+- React for the frontend user interface
+- Flask API to serve as a bridge between the React frontend and the Spotify API
+
+**Note:** This application requires valid Spotify API credentials to function properly. There is no mock data fallback.
+
+## Setup
+
+### Prerequisites
+
+- Node.js and npm
+- Python 3.x
+- Spotify Developer Account
+
+### Spotify API Credentials
+
+1. Create a Spotify Developer account at [https://developer.spotify.com/dashboard/](https://developer.spotify.com/dashboard/)
+2. Create a new application to get your Client ID and Client Secret
+3. Create a `.env` file in the root directory with the following content:
+```
+SPOTIFY_CLIENT_ID=your_client_id_here
+SPOTIFY_CLIENT_SECRET=your_client_secret_here
+```
+
+**Important:** Valid Spotify API credentials are required. The application will not function without them.
+
+### Installation
+
+1. Install JavaScript dependencies:
+```
+npm install
+```
+
+2. Install Python dependencies:
+```
+pip install flask flask-cors requests python-dotenv fuzzysearch
+```
+
+## Running the Application
+
+1. Start the Flask API server (runs on port 5002):
+```
+cd src/services
+python api.py
+```
+
+2. In a separate terminal, start the React development server:
+```
+npm start
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) to view the application in your browser.
+
+## How It Works
+
+1. Adjust the mood, energy, and vibe sliders in the UI
+2. The fuzzy logic system determines the most appropriate music genres
+3. The top genre is sent to the Spotify API to get a song recommendation
+4. The recommended song is displayed in the UI
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
