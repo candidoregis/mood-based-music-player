@@ -7,8 +7,11 @@
 // Import the services
 import spotifyService from '../src/services/spotifyService.js';
 import openAIService from '../src/services/openAIService.js';
+import youtubeService from '../src/services/youtubeService.js';
+import youtubePlayerService from '../src/services/youtubePlayerService.js';
 const { getSongRecommendation } = spotifyService;
 const { getSimilarSongs } = openAIService;
+const { createPlaylist } = youtubeService;
 
 // DOM Elements
 const moodSlider = document.getElementById('mood');
@@ -33,6 +36,15 @@ const songTitle = document.getElementById('song-title');
 const songGenre = document.getElementById('song-genre');
 const songError = document.getElementById('song-error');
 
+// YouTube Player DOM Elements
+const youtubePlayerWrapper = document.getElementById('youtube-player-wrapper');
+const youtubePlayer = document.getElementById('youtube-player');
+const youtubePlaylist = document.getElementById('youtube-playlist');
+const prevButton = document.getElementById('prev-button');
+const playButton = document.getElementById('play-button');
+const pauseButton = document.getElementById('pause-button');
+const nextButton = document.getElementById('next-button');
+
 // Application State
 let currentMood = 50;
 let currentEnergy = 50;
@@ -56,6 +68,15 @@ function init() {
   vibeSlider.addEventListener('input', handleVibeChange);
   calculateBtn.addEventListener('click', handleCalculateGenres);
   findMusicBtn.addEventListener('click', handleFindMusic);
+  
+  // Initialize YouTube player
+  youtubePlayerService.initPlayer('youtube-player', onYouTubePlayerReady);
+  
+  // Add YouTube player control event listeners
+  prevButton.addEventListener('click', handlePrevVideo);
+  playButton.addEventListener('click', handlePlayVideo);
+  pauseButton.addEventListener('click', handlePauseVideo);
+  nextButton.addEventListener('click', handleNextVideo);
 }
 
 // Event Handlers
@@ -81,8 +102,30 @@ function resetResults() {
   // Hide results and reset recommendations
   resultsContainer.style.display = 'none';
   songRecommendation.style.display = 'none';
+  youtubePlayerWrapper.style.display = 'none';
   genreRecommendations = [];
   findMusicBtn.disabled = true;
+}
+
+// YouTube Player Event Handlers
+function onYouTubePlayerReady() {
+  console.log('YouTube player is ready');
+}
+
+function handlePlayVideo() {
+  youtubePlayerService.playVideo();
+}
+
+function handlePauseVideo() {
+  youtubePlayerService.pauseVideo();
+}
+
+function handleNextVideo() {
+  youtubePlayerService.playNextVideo();
+}
+
+function handlePrevVideo() {
+  youtubePlayerService.playPreviousVideo();
 }
 
 function handleCalculateGenres() {
@@ -277,6 +320,55 @@ function displayAIRecommendations(data) {
   
   aiRecsContainer.appendChild(playlist);
   songRecommendation.appendChild(aiRecsContainer);
+  
+  // Create YouTube playlist from AI recommendations
+  createYouTubePlaylist(data.recommendations);
+}
+
+/**
+ * Create a YouTube playlist from AI recommendations
+ * @param {Array<Object>} recommendations - The array of song recommendations
+ */
+async function createYouTubePlaylist(recommendations) {
+  try {
+    // Show loading message for YouTube playlist
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'youtube-playlist-loading';
+    loadingDiv.className = 'loading-message';
+    loadingDiv.textContent = 'Creating YouTube playlist...';
+    youtubePlayerWrapper.appendChild(loadingDiv);
+    youtubePlayerWrapper.style.display = 'block';
+    
+    // Create a playlist from the recommendations
+    const videos = await createPlaylist(recommendations);
+    
+    // Remove loading message
+    const loadingElement = document.getElementById('youtube-playlist-loading');
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+    
+    // Set the playlist in the YouTube player
+    youtubePlayerService.setPlaylist(videos);
+    
+    // Show the YouTube player wrapper
+    youtubePlayerWrapper.style.display = 'block';
+  } catch (error) {
+    console.error('Error creating YouTube playlist:', error);
+    
+    // Remove loading message if it exists
+    const loadingElement = document.getElementById('youtube-playlist-loading');
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+    
+    // Display error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.innerHTML = `<strong>YouTube API Error:</strong><br>${error.message || 'Unknown error occurred'}`;
+    youtubePlayerWrapper.appendChild(errorDiv);
+    youtubePlayerWrapper.style.display = 'block';
+  }
 }
 
 // Initialize the application when the DOM is loaded

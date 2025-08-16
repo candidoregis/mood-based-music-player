@@ -457,3 +457,100 @@ h1 {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* YouTube Player Styles */
+.youtube-player-wrapper {
+  margin-top: 30px;
+  width: 100%;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.youtube-player {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.player-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.player-control-btn {
+  background: rgba(97, 218, 251, 0.2);
+  color: white;
+  border: 1px solid rgba(97, 218, 251, 0.5);
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.player-control-btn:hover {
+  background: rgba(97, 218, 251, 0.4);
+  transform: translateY(-2px);
+}
+
+.player-control-btn:active {
+  transform: translateY(0);
+}
+
+.youtube-playlist {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.youtube-playlist .playlist-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.youtube-playlist .playlist-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(3px);
+}
+
+.youtube-playlist .playlist-item.active {
+  background: rgba(97, 218, 251, 0.1);
+  border-left: 3px solid #61dafb;
+}
+
+.youtube-playlist .playlist-title {
+  font-size: 0.9rem;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* Create a custom scrollbar for the playlist */
+.youtube-playlist::-webkit-scrollbar {
+  width: 6px;
+}
+
+.youtube-playlist::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.youtube-playlist::-webkit-scrollbar-thumb {
+  background: rgba(97, 218, 251, 0.3);
+  border-radius: 3px;
+}
+
+.youtube-playlist::-webkit-scrollbar-thumb:hover {
+  background: rgba(97, 218, 251, 0.5);
+}

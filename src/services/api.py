@@ -7,12 +7,22 @@ This Flask API serves as a bridge between the frontend and the Spotify/OpenAI se
 
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-from . import spotify_get_song
-from . import openai_service
+import spotify_get_song
+import openai_service
 import os
+import dotenv
+
+# Load environment variables from .env file
+import pathlib
+# Get the project root directory (2 levels up from this file)
+project_root = pathlib.Path(__file__).parent.parent.parent.absolute()
+env_path = project_root / '.env'
+print(f"Loading .env from: {env_path}")
+dotenv.load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+# Enable CORS with specific settings
+CORS(app, resources={r"/*": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
 
 @app.route('/api/song', methods=['GET'])
 def get_song():
@@ -33,6 +43,35 @@ def get_song():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "ok"})
+
+@app.route('/api/config/youtube', methods=['GET'])
+def youtube_config():
+    """
+    API endpoint to provide YouTube API configuration
+    
+    Returns:
+    - JSON response with YouTube API key
+    """
+    print("YouTube config endpoint called")
+    print(f"Environment variables: {list(os.environ.keys())}")
+    
+    youtube_api_key = os.environ.get('YOUTUBE_API_KEY')
+    print(f"YouTube API key found: {bool(youtube_api_key)}")
+    
+    if not youtube_api_key:
+        error_response = {
+            'success': False,
+            'error': 'YouTube API key not found in environment variables'
+        }
+        print(f"Returning error: {error_response}")
+        return jsonify(error_response), 500
+    
+    success_response = {
+        'success': True,
+        'apiKey': youtube_api_key
+    }
+    print(f"Returning success: {success_response}")
+    return jsonify(success_response)
 
 @app.route('/api/recommendations', methods=['GET'])
 def get_recommendations():
