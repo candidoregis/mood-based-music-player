@@ -103,6 +103,38 @@ function App() {
             <div className="mood-analysis">
               <h2>Your Mood Analysis</h2>
               <p className="mood-description">{moodState.description}</p>
+              <div className="mood-details">
+                <div className="mood-detail-item">
+                  <span className="detail-label">Mood:</span>
+                  <span className="detail-value">{moodState.mood}</span>
+                  <div className="detail-bar-container">
+                    <div 
+                      className="detail-bar" 
+                      style={{ width: `${parseFloat(moodState.moodValue) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="mood-detail-item">
+                  <span className="detail-label">Energy:</span>
+                  <span className="detail-value">{moodState.energy}</span>
+                  <div className="detail-bar-container">
+                    <div 
+                      className="detail-bar" 
+                      style={{ width: `${parseFloat(moodState.energyValue) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="mood-detail-item">
+                  <span className="detail-label">Vibe:</span>
+                  <span className="detail-value">{moodState.vibe}</span>
+                  <div className="detail-bar-container">
+                    <div 
+                      className="detail-bar" 
+                      style={{ width: `${parseFloat(moodState.vibeValue) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
             
             <div className="recommendations">
