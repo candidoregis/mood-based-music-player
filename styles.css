@@ -367,3 +367,93 @@ h1 {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* AI Recommendations Styles */
+.ai-recommendations {
+  margin-top: 30px;
+  width: 100%;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.ai-recommendations h3 {
+  color: #61dafb;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.source-track {
+  background: rgba(97, 218, 251, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #61dafb;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.ai-playlist {
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+}
+
+.playlist-item {
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.playlist-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.playlist-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.playlist-reason {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.error-message {
+  color: #ff6b6b;
+  padding: 15px;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.no-recommendations {
+  color: #a0a0a0;
+  text-align: center;
+  font-style: italic;
+  padding: 15px 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

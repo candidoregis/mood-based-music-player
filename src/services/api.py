@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """
-API Server for Spotify Song Recommendations
+API Server for Spotify Song Recommendations and OpenAI Playlist Generation
 
-This Flask API serves as a bridge between the React frontend and the Spotify song retrieval script.
+This Flask API serves as a bridge between the frontend and the Spotify/OpenAI services.
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import spotify_get_song
+from . import spotify_get_song
+from . import openai_service
 import os
 
 app = Flask(__name__)
@@ -32,6 +33,56 @@ def get_song():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "ok"})
+
+@app.route('/api/recommendations', methods=['GET'])
+def get_recommendations():
+    """
+    API endpoint to get similar song recommendations using OpenAI
+    
+    Query parameters:
+    - title: The title of the song
+    - artist: The artist of the song
+    - genre: The genre of the song
+    - limit: The number of recommendations to return (default: 10)
+    - test_error: If 'true', simulates an API failure (for testing)
+    
+    Returns:
+    - JSON response with song recommendations or error message
+    """
+    title = request.args.get('title', '')
+    artist = request.args.get('artist', '')
+    genre = request.args.get('genre', '')
+    limit = request.args.get('limit', 10)
+    test_error = request.args.get('test_error', 'false').lower() == 'true'
+    
+    try:
+        limit = int(limit)
+    except ValueError:
+        limit = 10
+    
+    if not title or not artist:
+        return jsonify({
+            'success': False,
+            'error': 'Title and artist are required parameters'
+        })
+    
+    # If test_error is true, simulate an API failure
+    if test_error:
+        result = openai_service.simulate_api_failure(title, artist, genre, limit, "Test error: OpenAI API failure simulation")
+    else:
+        result = openai_service.get_similar_songs(title, artist, genre, limit)
+    
+    return jsonify(result)
+
+@app.route('/', methods=['GET'])
+def index():
+    # Serve the index.html file from the project root
+    return send_from_directory(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')), 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    # Serve static files from the project root
+    return send_from_directory(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')), path)
 
 if __name__ == '__main__':
     # Get port from environment variable or use 5002 as default

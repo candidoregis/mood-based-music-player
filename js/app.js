@@ -1,8 +1,14 @@
 /**
  * Main Application JavaScript for Mood-Based Music Player
  * This file handles UI interactions, slider updates, and integrates
- * the fuzzy logic system with the Spotify API service.
+ * the fuzzy logic system with the Spotify API service and OpenAI for playlist generation.
  */
+
+// Import the services
+import spotifyService from '../src/services/spotifyService.js';
+import openAIService from '../src/services/openAIService.js';
+const { getSongRecommendation } = spotifyService;
+const { getSimilarSongs } = openAIService;
 
 // DOM Elements
 const moodSlider = document.getElementById('mood');
@@ -141,6 +147,16 @@ async function handleFindMusic() {
     songGenre.textContent = `Genre: ${recommendation.genre}`;
     songError.textContent = '';
     songRecommendation.style.display = 'block';
+    
+    // Parse the song title to get artist and title
+    const songParts = recommendation.song.split(' - ');
+    if (songParts.length >= 2) {
+      const artist = songParts[0].trim();
+      const title = songParts[1].trim();
+      
+      // Get AI-generated playlist recommendations
+      await getAIPlaylistRecommendations(title, artist, recommendation.genre);
+    }
   } catch (error) {
     console.error('Error finding music:', error);
     songTitle.textContent = 'Rick Astley - Never Gonna Give You Up';
@@ -160,6 +176,107 @@ function updateDisplayValues() {
   moodValue.textContent = currentMood;
   energyValue.textContent = currentEnergy;
   vibeValue.textContent = currentVibe;
+}
+
+/**
+ * Get AI-generated playlist recommendations based on a song
+ * @param {string} title - The title of the song
+ * @param {string} artist - The artist of the song
+ * @param {string} genre - The genre of the song
+ * @returns {Promise<void>}
+ */
+async function getAIPlaylistRecommendations(title, artist, genre) {
+  try {
+    // Create a loading message
+    const loadingDiv = document.createElement('div');
+    loadingDiv.id = 'ai-playlist-loading';
+    loadingDiv.className = 'loading-message';
+    loadingDiv.textContent = 'Generating AI playlist recommendations...';
+    songRecommendation.appendChild(loadingDiv);
+    
+    // Get song recommendations from OpenAI
+    const songData = { title, artist, genre };
+    const recommendations = await getSimilarSongs(songData);
+    
+    // Remove loading message
+    const loadingElement = document.getElementById('ai-playlist-loading');
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+    
+    // Display the recommendations
+    displayAIRecommendations(recommendations);
+  } catch (error) {
+    console.error('Error getting AI playlist recommendations:', error);
+    
+    // Remove loading message if it exists
+    const loadingElement = document.getElementById('ai-playlist-loading');
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+    
+    // Display error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = 'Failed to get AI playlist recommendations';
+    songRecommendation.appendChild(errorDiv);
+  }
+}
+
+/**
+ * Display AI-generated playlist recommendations
+ * @param {Object} data - The recommendations data from the API
+ */
+function displayAIRecommendations(data) {
+  // Check if we have valid data
+  if (!data || !data.recommendations || data.recommendations.length === 0) {
+    const noRecsDiv = document.createElement('div');
+    noRecsDiv.className = 'no-recommendations';
+    noRecsDiv.textContent = 'No recommendations available';
+    songRecommendation.appendChild(noRecsDiv);
+    return;
+  }
+  
+  // Create container for AI recommendations
+  const aiRecsContainer = document.createElement('div');
+  aiRecsContainer.id = 'ai-recommendations';
+  aiRecsContainer.className = 'ai-recommendations';
+  
+  // Create header
+  const header = document.createElement('h3');
+  header.textContent = 'AI-Generated Playlist';
+  aiRecsContainer.appendChild(header);
+  
+  // Create source track info
+  const sourceTrack = document.createElement('div');
+  sourceTrack.className = 'source-track';
+  sourceTrack.textContent = `Based on: ${data.source_song.title} by ${data.source_song.artist}`;
+  aiRecsContainer.appendChild(sourceTrack);
+  
+  // Create playlist
+  const playlist = document.createElement('ol');
+  playlist.className = 'ai-playlist';
+  
+  // Add each recommendation to the playlist
+  data.recommendations.forEach(rec => {
+    const item = document.createElement('li');
+    item.className = 'playlist-item';
+    
+    const title = document.createElement('div');
+    title.className = 'playlist-title';
+    title.textContent = `${rec.title} - ${rec.artist}`;
+    
+    const reason = document.createElement('div');
+    reason.className = 'playlist-reason';
+    reason.textContent = rec.reason || 'Similar style and mood';
+    
+    item.appendChild(title);
+    item.appendChild(reason);
+    playlist.appendChild(item);
+  });
+  
+  aiRecsContainer.appendChild(playlist);
+  songRecommendation.appendChild(aiRecsContainer);
 }
 
 // Initialize the application when the DOM is loaded
