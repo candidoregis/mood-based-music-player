@@ -27,7 +27,10 @@ export const getSongByGenreFromApi = async (genre) => {
     return data;
   } catch (error) {
     console.error('Error getting song by genre:', error);
+    // Return a fallback song recommendation with error info
     return {
+      song: 'Rick Astley - Never Gonna Give You Up',
+      genre: 'pop',
       error: error.message || 'Failed to get song recommendation'
     };
   }

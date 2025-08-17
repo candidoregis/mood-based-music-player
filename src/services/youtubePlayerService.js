@@ -68,18 +68,18 @@ function loadYouTubeAPI() {
  * @param {string} containerId - The ID of the container element for the player
  */
 function createPlayer(containerId) {
-  // Create a div element for the player if it doesn't exist
-  let playerContainer = document.getElementById('youtube-player-container');
-  if (!playerContainer) {
-    playerContainer = document.createElement('div');
-    playerContainer.id = 'youtube-player-container';
-    document.getElementById(containerId).appendChild(playerContainer);
+  console.log(`Creating YouTube player in container: ${containerId}`);
+  const container = document.getElementById(containerId);
+  
+  if (!container) {
+    console.error(`Container with ID ${containerId} not found`);
+    return;
   }
   
-  // Create the player
-  player = new window.YT.Player('youtube-player-container', {
+  // Use the container directly instead of creating a new element
+  player = new window.YT.Player(containerId, {
     height: '270',
-    width: '480',
+    width: '100%',
     playerVars: {
       'playsinline': 1,
       'controls': 1,
@@ -92,6 +92,8 @@ function createPlayer(containerId) {
       'onStateChange': onPlayerStateChange
     }
   });
+  
+  console.log('YouTube player instance created');
 }
 
 /**

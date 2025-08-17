@@ -206,7 +206,7 @@ const defuzzify = (ruleStrengths) => {
 };
 
 // Main function to process inputs and get recommendations
-const getFuzzyRecommendations = (moodValue, energyValue, vibeValue) => {
+window.getFuzzyRecommendations = (moodValue, energyValue, vibeValue) => {
   // Get membership values
   const mood = getMoodMembership(moodValue);
   const energy = getEnergyMembership(energyValue);
@@ -222,7 +222,7 @@ const getFuzzyRecommendations = (moodValue, energyValue, vibeValue) => {
 };
 
 // Get descriptive mood state based on slider values
-const getMoodState = (mood, energy, vibe) => {
+window.getMoodState = (mood, energy, vibe) => {
   const moodMembership = getMoodMembership(mood);
   const energyMembership = getEnergyMembership(energy);
   const vibeMembership = getVibeMembership(vibe);

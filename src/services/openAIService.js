@@ -28,7 +28,25 @@ export const getSimilarSongsFromApi = async (title, artist, genre) => {
     return data;
   } catch (error) {
     console.error('Error getting similar songs:', error);
+    // Return fallback recommendations
     return {
+      source_song: {
+        title: title || 'Unknown Title',
+        artist: artist || 'Unknown Artist',
+        genre: genre || 'pop'
+      },
+      recommendations: [
+        { title: 'Billie Jean', artist: 'Michael Jackson', reason: 'Classic pop hit with a similar vibe' },
+        { title: 'Shape of You', artist: 'Ed Sheeran', reason: 'Modern pop with catchy rhythm' },
+        { title: 'Uptown Funk', artist: 'Mark Ronson', reason: 'Energetic and fun' },
+        { title: 'Bad Guy', artist: 'Billie Eilish', reason: 'Contemporary pop with unique style' },
+        { title: 'Blinding Lights', artist: 'The Weeknd', reason: 'Popular synth-pop track' },
+        { title: 'Dance Monkey', artist: 'Tones and I', reason: 'Catchy pop melody' },
+        { title: 'Watermelon Sugar', artist: 'Harry Styles', reason: 'Upbeat summer vibe' },
+        { title: 'Don\'t Start Now', artist: 'Dua Lipa', reason: 'Modern disco-pop sound' },
+        { title: 'Levitating', artist: 'Dua Lipa', reason: 'Danceable pop track' },
+        { title: 'Stay', artist: 'The Kid LAROI', reason: 'Contemporary pop collaboration' }
+      ],
       error: error.message || 'Failed to get song recommendations'
     };
   }

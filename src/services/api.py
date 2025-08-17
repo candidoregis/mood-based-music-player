@@ -22,7 +22,8 @@ dotenv.load_dotenv(dotenv_path=env_path)
 
 app = Flask(__name__)
 # Enable CORS with specific settings
-CORS(app, resources={r"/*": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:8000", "http://127.0.0.1:8000"]}})
+
 
 @app.route('/api/song', methods=['GET'])
 def get_song():

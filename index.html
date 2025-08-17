@@ -1,142 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mood-Based Music Player</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="public/favicon.ico">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="public/favicon.ico" />
+  </head>
+  <body>
     <div class="app">
-        <header class="app-header">
-            <h1>Mood-Based Music Player</h1>
-            
-            <div class="slider-container">
-                <div class="slider-group">
-                    <label for="mood">Mood: <span id="mood-value">50</span>%</label>
-                    <input
-                        type="range"
-                        id="mood"
-                        name="mood"
-                        min="0"
-                        max="100"
-                        value="50"
-                        class="slider"
-                    />
-                    <span class="slider-labels">
-                        <span>Sad</span>
-                        <span>Happy</span>
-                    </span>
-                </div>
+      <header class="app-header">
+        <h1>Mood-Based Music Player</h1>
 
-                <div class="slider-group">
-                    <label for="energy">Energy: <span id="energy-value">50</span>%</label>
-                    <input
-                        type="range"
-                        id="energy"
-                        name="energy"
-                        min="0"
-                        max="100"
-                        value="50"
-                        class="slider"
-                    />
-                    <span class="slider-labels">
-                        <span>Low</span>
-                        <span>High</span>
-                    </span>
-                </div>
-
-                <div class="slider-group">
-                    <label for="vibe">Vibe: <span id="vibe-value">50</span>%</label>
-                    <input
-                        type="range"
-                        id="vibe"
-                        name="vibe"
-                        min="0"
-                        max="100"
-                        value="50"
-                        class="slider"
-                    />
-                    <span class="slider-labels">
-                        <span>Chill</span>
-                        <span>Intense</span>
-                    </span>
-                </div>
+        <!-- Cards Container for all phases -->
+        <div class="cards-container" id="cards-container">
+          <!-- Phase 1: Mood Selection Card -->
+          <div class="card" id="mood-selection-card">
+            <div class="card-header">
+              <h2>Set Your Mood</h2>
             </div>
-            
-            <button id="calculate-btn" class="calculate-btn">
-                Calculate Recommendations
-            </button>
-            
-            <button id="find-music-btn" class="find-music-btn" disabled>
-                Find Music
-            </button>
+            <div class="card-content">
+              <div class="slider-container">
+                <div class="slider-group">
+                  <label for="mood"
+                    >Mood: <span id="mood-value">50</span>%</label
+                  >
+                  <input
+                    type="range"
+                    id="mood"
+                    name="mood"
+                    min="0"
+                    max="100"
+                    value="50"
+                    class="slider"
+                  />
+                  <span class="slider-labels">
+                    <span>Sad</span>
+                    <span>Happy</span>
+                  </span>
+                </div>
 
-            <div id="song-recommendation" class="song-recommendation" style="display: none;">
-                <h3>Recommended Song:</h3>
+                <div class="slider-group">
+                  <label for="energy"
+                    >Energy: <span id="energy-value">50</span>%</label
+                  >
+                  <input
+                    type="range"
+                    id="energy"
+                    name="energy"
+                    min="0"
+                    max="100"
+                    value="50"
+                    class="slider"
+                  />
+                  <span class="slider-labels">
+                    <span>Low</span>
+                    <span>High</span>
+                  </span>
+                </div>
+
+                <div class="slider-group">
+                  <label for="vibe"
+                    >Vibe: <span id="vibe-value">50</span>%</label
+                  >
+                  <input
+                    type="range"
+                    id="vibe"
+                    name="vibe"
+                    min="0"
+                    max="100"
+                    value="50"
+                    class="slider"
+                  />
+                  <span class="slider-labels">
+                    <span>Chill</span>
+                    <span>Intense</span>
+                  </span>
+                </div>
+              </div>
+
+              <button id="calculate-btn" class="calculate-btn">
+                Calculate Recommendations
+              </button>
+            </div>
+          </div>
+
+          <!-- Phase 2: Results Card -->
+          <div class="card" id="results-card" style="display: none">
+            <div class="card-header">
+              <h2>Your Mood Analysis</h2>
+            </div>
+            <div class="card-content">
+              <div class="mood-analysis">
+                <p id="mood-description" class="mood-description"></p>
+                <div class="mood-details">
+                  <div class="mood-detail-item">
+                    <span class="detail-label">Mood:</span>
+                    <span id="detail-mood" class="detail-value"></span>
+                    <div class="detail-bar-container">
+                      <div
+                        id="mood-bar"
+                        class="detail-bar"
+                        style="width: 50%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="mood-detail-item">
+                    <span class="detail-label">Energy:</span>
+                    <span id="detail-energy" class="detail-value"></span>
+                    <div class="detail-bar-container">
+                      <div
+                        id="energy-bar"
+                        class="detail-bar"
+                        style="width: 50%"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="mood-detail-item">
+                    <span class="detail-label">Vibe:</span>
+                    <span id="detail-vibe" class="detail-value"></span>
+                    <div class="detail-bar-container">
+                      <div
+                        id="vibe-bar"
+                        class="detail-bar"
+                        style="width: 50%"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="recommendations">
+                <h3>Recommended Genres</h3>
+                <ul id="genre-list" class="genre-list">
+                  <!-- Genre items will be inserted here by JavaScript -->
+                </ul>
+              </div>
+
+              <button id="find-music-btn" class="find-music-btn" disabled>
+                Find Music
+              </button>
+            </div>
+          </div>
+
+          <!-- Phase 3: YouTube Player Card -->
+          <div class="card" id="youtube-card" style="display: none">
+            <div class="card-header">
+              <h2>Your Playlist</h2>
+            </div>
+            <div class="card-content">
+              <!-- Simple YouTube container structure -->
+              <div id="youtube-container">
                 <p id="song-title" class="song-title"></p>
                 <p id="song-genre" class="song-genre"></p>
                 <p id="song-error" class="song-error"></p>
-                <div id="spotify-player" class="spotify-player"></div>
-                
+
                 <!-- YouTube Player Container -->
-                <div id="youtube-player-wrapper" class="youtube-player-wrapper" style="display: none;">
-                    <h3>YouTube Playlist</h3>
-                    <div id="youtube-player" class="youtube-player"></div>
-                    <div class="player-controls">
-                        <button id="prev-button" class="player-control-btn">Previous</button>
-                        <button id="play-button" class="player-control-btn">Play</button>
-                        <button id="pause-button" class="player-control-btn">Pause</button>
-                        <button id="next-button" class="player-control-btn">Next</button>
-                    </div>
-                    <div id="youtube-playlist" class="youtube-playlist">
-                        <!-- Playlist items will be inserted here by JavaScript -->
-                    </div>
+                <div
+                  id="youtube-player"
+                  style="
+                    width: 100%;
+                    height: 270px;
+                    background-color: #000;
+                    margin-bottom: 15px;
+                  "
+                ></div>
+
+                <!-- Player Controls -->
+                <div class="player-controls">
+                  <button id="prev-button" class="player-control-btn">
+                    Previous
+                  </button>
+                  <button id="play-button" class="player-control-btn">
+                    Play
+                  </button>
+                  <button id="pause-button" class="player-control-btn">
+                    Pause
+                  </button>
+                  <button id="next-button" class="player-control-btn">
+                    Next
+                  </button>
                 </div>
+
+                <!-- Playlist -->
+                <div id="youtube-playlist" class="youtube-playlist">
+                  <div class="playlist-placeholder">Loading playlist...</div>
+                </div>
+              </div>
             </div>
-            
-            <div id="results-container" class="results-container" style="display: none;">
-                <div class="mood-analysis">
-                    <h2>Your Mood Analysis</h2>
-                    <p id="mood-description" class="mood-description"></p>
-                    <div class="mood-details">
-                        <div class="mood-detail-item">
-                            <span class="detail-label">Mood:</span>
-                            <span id="detail-mood" class="detail-value"></span>
-                            <div class="detail-bar-container">
-                                <div id="mood-bar" class="detail-bar" style="width: 50%"></div>
-                            </div>
-                        </div>
-                        <div class="mood-detail-item">
-                            <span class="detail-label">Energy:</span>
-                            <span id="detail-energy" class="detail-value"></span>
-                            <div class="detail-bar-container">
-                                <div id="energy-bar" class="detail-bar" style="width: 50%"></div>
-                            </div>
-                        </div>
-                        <div class="mood-detail-item">
-                            <span class="detail-label">Vibe:</span>
-                            <span id="detail-vibe" class="detail-value"></span>
-                            <div class="detail-bar-container">
-                                <div id="vibe-bar" class="detail-bar" style="width: 50%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="recommendations">
-                    <h2>Recommended Genres</h2>
-                    <ul id="genre-list" class="genre-list">
-                        <!-- Genre items will be inserted here by JavaScript -->
-                    </ul>
-                </div>
-            </div>
-        </header>
+          </div>
+        </div>
+      </header>
     </div>
 
     <!-- JavaScript Files -->
     <script src="js/fuzzyLogic.js" type="text/javascript"></script>
     <script src="js/app.js" type="module"></script>
-</body>
+  </body>
 </html>

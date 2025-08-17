@@ -26,6 +26,66 @@ body {
   padding: 20px;
 }
 
+/* Card layout styles */
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  max-width: 1200px;
+  transition: all 0.3s ease;
+}
+
+#youtube-card {
+  min-height: 500px;
+  min-width: 350px;
+  display: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-in-out;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-color: rgba(97, 218, 251, 0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.card-header h2 {
+  color: #61dafb;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.card-content {
+  width: 100%;
+}
+
 h1 {
   margin-bottom: 40px;
   font-weight: 600;
@@ -324,6 +384,53 @@ h1 {
 }
 
 /* Responsive Styles */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+  .slider-container {
+    width: 100%;
+  }
+  
+  .calculate-btn,
+  .find-music-btn {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .mood-analysis h2,
+  .recommendations h2 {
+    font-size: 1.5rem;
+  }
+  
+  .youtube-player {
+    height: 200px;
+  }
+  
+  /* Card layout responsive styles */
+  .cards-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .card {
+    min-width: 100%;
+    max-width: 100%;
+    padding: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .card-header h2 {
+    font-size: 1.4rem;
+  }
+}
+
 @media (max-width: 600px) {
   .slider-container,
   .results-container,
@@ -349,6 +456,41 @@ h1 {
     padding: 10px 20px;
     font-size: 1rem;
     min-width: 150px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .card-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .slider-group label {
+    font-size: 0.9rem;
+  }
+  
+  .youtube-player {
+    height: 180px;
+  }
+  
+  .player-controls {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .player-control-btn {
+    flex: 1;
+    min-width: 45%;
+    padding: 8px;
+    font-size: 0.8rem;
   }
 }
 
@@ -460,9 +602,26 @@ h1 {
 
 /* YouTube Player Styles */
 .youtube-player-wrapper {
-  margin-top: 30px;
+  margin-top: 20px;
   width: 100%;
-  animation: fadeIn 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.youtube-player {
+  width: 100%;
+  height: 270px;
+  background-color: #000;
+  margin-bottom: 15px;
+}
+
+#youtube-player-container, #youtube-player, #youtube-player iframe {
+  width: 100% !important;
+  height: 270px !important;
+  margin-bottom: 15px;
+  display: block !important;
+  z-index: 20;
 }
 
 .youtube-player {
@@ -553,4 +712,50 @@ h1 {
 
 .youtube-playlist::-webkit-scrollbar-thumb:hover {
   background: rgba(97, 218, 251, 0.5);
+}
+
+/* Placeholder styles */
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 270px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.placeholder-content h3 {
+  color: #61dafb;
+  margin-bottom: 15px;
+}
+
+.placeholder-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.placeholder-controls button {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.playlist-item.placeholder {
+  opacity: 0.6;
+}
+
+.placeholder-thumbnail {
+  width: 120px;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-right: 10px;
+  float: left;
 }
